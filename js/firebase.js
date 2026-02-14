@@ -1,4 +1,6 @@
+// 🔥 IMPORTS VIA CDN (OBRIGATÓRIO PRA GITHUB PAGES)
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js';
+
 import {
   getAuth,
   setPersistence,
@@ -8,6 +10,7 @@ import {
   sendPasswordResetEmail,
   onAuthStateChanged,
 } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js';
+
 import {
   getFirestore,
   collection,
@@ -25,6 +28,7 @@ import {
   serverTimestamp,
   limit,
 } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js';
+
 import {
   getStorage,
   ref,
@@ -32,24 +36,29 @@ import {
   getDownloadURL,
 } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-storage.js';
 
-// Substitua pelos dados do seu projeto Firebase
+
+// 🔥 CONFIG DO SEU PROJETO
 const firebaseConfig = {
   apiKey: "AIzaSyBA-_OgmbpD4OoRTrDIn6JgXpe2KPYWwuU",
   authDomain: "lcjuros.firebaseapp.com",
   projectId: "lcjuros",
-  storageBucket: "lcjuros.firebasestorage.app",
+  storageBucket: "lcjuros.appspot.com", // ✅ CORRIGIDO
   messagingSenderId: "6790828854",
-  appId: "1:6790828854:web:2c83fe17cb2eee17fad997",
-  measurementId: "G-63N8BJF6BV"
+  appId: "1:6790828854:web:2c83fe17cb2eee17fad997"
 };
 
 
+// 🔥 INICIALIZAÇÃO
 const app = initializeApp(firebaseConfig);
+
 const auth = getAuth(app);
 await setPersistence(auth, browserLocalPersistence);
+
 const db = getFirestore(app);
 const storage = getStorage(app);
 
+
+// 🔥 EXPORTS
 export {
   app,
   auth,
