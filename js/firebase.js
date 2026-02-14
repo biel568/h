@@ -42,7 +42,7 @@ const firebaseConfig = {
   apiKey: "AIzaSyBA-_OgmbpD4OoRTrDIn6JgXpe2KPYWwuU",
   authDomain: "lcjuros.firebaseapp.com",
   projectId: "lcjuros",
-  storageBucket: "lcjuros.appspot.com", // ✅ CORRIGIDO
+  storageBucket: "lcjuros.appspot.com", 
   messagingSenderId: "6790828854",
   appId: "1:6790828854:web:2c83fe17cb2eee17fad997"
 };
