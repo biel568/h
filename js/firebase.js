@@ -34,13 +34,15 @@ import {
 
 // Substitua pelos dados do seu projeto Firebase
 const firebaseConfig = {
-  apiKey: 'SUA_API_KEY',
-  authDomain: 'SEU_PROJETO.firebaseapp.com',
-  projectId: 'SEU_PROJETO',
-  storageBucket: 'SEU_PROJETO.appspot.com',
-  messagingSenderId: '000000000000',
-  appId: '1:000000000000:web:00000000000000',
+  apiKey: "AIzaSyBA-_OgmbpD4OoRTrDIn6JgXpe2KPYWwuU",
+  authDomain: "lcjuros.firebaseapp.com",
+  projectId: "lcjuros",
+  storageBucket: "lcjuros.firebasestorage.app",
+  messagingSenderId: "6790828854",
+  appId: "1:6790828854:web:2c83fe17cb2eee17fad997",
+  measurementId: "G-63N8BJF6BV"
 };
+
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
