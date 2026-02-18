@@ -28,6 +28,7 @@ import {
   phoneMask,
   debounce,
   formatDateBR,
+  escapeHTML,
 } from './utils.js';
 import { renderCharts } from './charts.js';
 import { showToast } from '../components/toast.js';
@@ -119,30 +120,37 @@ const renderTable = () => {
   const pageRows = state.filtered.slice(start, start + state.perPage);
 
   el.tbody.innerHTML = pageRows
-    .map(
-      (c) => `
+    .map((c) => {
+      const safeId = escapeHTML(c.id);
+      const safeName = escapeHTML(c.name || '');
+      const safeCpf = escapeHTML(c.cpf || '');
+      const safeCompounding = escapeHTML(COMPOUNDING_PERIOD_LABEL[c.compoundingPeriod || 'monthly'] || 'Mensal');
+      const safeStatus = escapeHTML(c.status || '-');
+      const safeDate = escapeHTML(formatDateBR(c.loanDate));
+
+      return `
       <tr class="border-b border-slate-800 hover:bg-slate-800/40">
-        <td class="py-2">${c.name}</td>
-        <td>${c.cpf}</td>
+        <td class="py-2">${safeName}</td>
+        <td>${safeCpf}</td>
         <td>${currencyBRL(c.loanAmount)}</td>
         <td>${currencyBRL(c.finalAmount)}</td>
-        <td>${COMPOUNDING_PERIOD_LABEL[c.compoundingPeriod || 'monthly']}</td>
+        <td>${safeCompounding}</td>
         <td><span class="px-2 py-1 text-xs rounded-full ${
           c.status === 'ativo'
             ? 'bg-emerald-500/20 text-emerald-300'
             : c.status === 'pago'
             ? 'bg-blue-500/20 text-blue-300'
             : 'bg-red-500/20 text-red-300'
-        }">${c.status}</span></td>
-        <td>${formatDateBR(c.loanDate)}</td>
+        }">${safeStatus}</span></td>
+        <td>${safeDate}</td>
         <td class="space-x-1">
-          <button data-view="${c.id}" class="view-btn px-2 py-1 rounded bg-cyan-700 text-xs">Detalhes</button>
-          <button data-edit="${c.id}" class="edit-btn px-2 py-1 rounded bg-indigo-700 text-xs">Editar</button>
-          <button data-pay="${c.id}" class="pay-btn px-2 py-1 rounded bg-emerald-700 text-xs">Marcar pago</button>
-          <button data-del="${c.id}" class="del-btn px-2 py-1 rounded bg-rose-700 text-xs">Excluir</button>
+          <button data-view="${safeId}" class="view-btn px-2 py-1 rounded bg-cyan-700 text-xs">Detalhes</button>
+          <button data-edit="${safeId}" class="edit-btn px-2 py-1 rounded bg-indigo-700 text-xs">Editar</button>
+          <button data-pay="${safeId}" class="pay-btn px-2 py-1 rounded bg-emerald-700 text-xs">Marcar pago</button>
+          <button data-del="${safeId}" class="del-btn px-2 py-1 rounded bg-rose-700 text-xs">Excluir</button>
         </td>
-      </tr>`
-    )
+      </tr>`;
+    })
     .join('');
 
   renderPagination();
@@ -202,7 +210,7 @@ const renderReports = () => {
   const ranking = [...state.clients]
     .sort((a, b) => b.finalAmount - a.finalAmount)
     .slice(0, 5)
-    .map((c) => `<li>${c.name} — ${currencyBRL(c.finalAmount)}</li>`)
+    .map((c) => `<li>${escapeHTML(c.name || '')} — ${currencyBRL(c.finalAmount)}</li>`)
     .join('');
   el.ranking.innerHTML = ranking || '<li>Sem dados.</li>';
 
@@ -215,7 +223,7 @@ const renderReports = () => {
   });
 
   el.notifications.innerHTML = dueSoon.length
-    ? dueSoon.map((c) => `<li>${c.name}: vence em até 7 dias.</li>`).join('')
+    ? dueSoon.map((c) => `<li>${escapeHTML(c.name || '')}: vence em até 7 dias.</li>`).join('')
     : '<li>Nenhum vencimento próximo.</li>';
 };
 
@@ -421,7 +429,7 @@ const subscribeData = () => {
       .slice(0, 8)
       .map((d) => {
         const log = d.data();
-        return `<li>${log.action} — ${log.userName || 'sistema'} (${log.detail || '-'})</li>`;
+        return `<li>${escapeHTML(log.action || '-')} — ${escapeHTML(log.userName || 'sistema')} (${escapeHTML(log.detail || '-')})</li>`;
       })
       .join('');
   });

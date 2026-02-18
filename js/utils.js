@@ -80,3 +80,11 @@ export const formatDateBR = (isoDate) => {
   const date = new Date(isoDate);
   return date.toLocaleDateString('pt-BR');
 };
+
+export const escapeHTML = (value = '') =>
+  String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
